@@ -4,28 +4,23 @@ services:
     db:
         image: mysql
         volumes:
-            - "./.data/db:/var/lib/mysql"
+            - ./.data/db:/var/lib/mysql
+        ports:
+            - 3307:3306
         environment:
             MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
             MYSQL_DATABASE: ${MYSQL_DATABASE}
             MYSQL_USER: ${MYSQL_USER}
             MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    php:
-        build:
-            context: php7-fpm
-            args:
-                TIMEZONE: ${TIMEZONE}
-        volumes:
-            - ${SYMFONY_APP_PATH}:/var/www/symfony
-            - ./logs/symfony:/var/www/symfony/app/logs
-    nginx:
-        build: nginx
+    redis:
+        build: redis
         ports:
-            - 80:80
-        volumes_from:
-            - php
-        volumes:
-            - ./logs/nginx/:/var/log/nginx
+            - 6379:6379
+    #elasticsearch:
+    #    image: elasticsearch
+    #    ports:
+    #        - 9200:9200
+    #        - 9300:9300
     elk:
         image: willdurand/elk
         ports:
@@ -36,3 +31,28 @@ services:
         volumes_from:
             - php
             - nginx
+    php:
+        build:
+            context: php7-fpm
+            args:
+                TIMEZONE: ${TIMEZONE}
+        volumes_from:
+            - lsyncd
+    lsyncd:
+        image: dracoblue/lsyncd
+        environment:
+            - SOURCES=/vendor
+            - DESTINATIONS=/var/www/symfony/vendor
+            - EXCLUDES=.svn:.git:.docker
+        volumes:
+            - /Users/kevin/projects/docker-mascoteros/source/:/var/www/symfony:cached
+            - ./vendor:/vendor
+            - /var/www/symfony/vendor
+    nginx:
+        build: nginx
+        ports:
+            - 80:80
+        volumes_from:
+            - php
+        volumes:
+            - ./logs/nginx/:/var/log/nginx
