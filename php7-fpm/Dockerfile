@@ -14,7 +14,10 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install intl \
     && docker-php-ext-install mbstring \
     && docker-php-ext-install zip \
-    && docker-php-ext-install gd
+    && docker-php-ext-install gd \
+    && curl -sL https://deb.nodesource.com/setup_6.x | bash - \
+    && apt-get install -y nodejs \
+    && npm install -g grunt-cli
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer

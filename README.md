@@ -63,6 +63,11 @@ Just run `docker-compose up -d`, then:
 * Logs (Kibana): [symfony.dev:81](http://symfony.dev:81)
 * Logs (files location): logs/nginx and logs/symfony
 
+## IMPORTANT
+
+For solve Grunt execute problems, go to: https://github.com/yeoman/generator-angular/issues/1320
+and follow the steps for the *peterkwidjaja* comment.
+
 ## Customize
 
 If you want to add optionnals containers like Redis, PHPMyAdmin... take a look on [doc/custom.md](doc/custom.md).
@@ -103,6 +108,9 @@ $ docker-compose exec php php /var/www/symfony/bin/console cache:clear # Symfony
 # Same command by using alias
 $ docker-compose exec php bash
 $ sf cache:clear
+
+# Grunt
+$ docker-compose exec php grunt
 
 # Retrieve an IP Address (here for the nginx container)
 $ docker inspect --format '{{ .NetworkSettings.Networks.dockersymfony_default.IPAddress }}' $(docker ps -f name=nginx -q)
