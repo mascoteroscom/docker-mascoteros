@@ -10,11 +10,13 @@ RUN apt-get update && apt-get install -y \
     unzip \
     libicu-dev \
     libpng-dev \
+    libxml2-dev \
     && docker-php-ext-configure intl \
     && docker-php-ext-install intl \
     && docker-php-ext-install mbstring \
     && docker-php-ext-install zip \
     && docker-php-ext-install gd \
+    && docker-php-ext-install soap \
     && curl -sL https://deb.nodesource.com/setup_6.x | bash - \
     && apt-get install -y nodejs \
     && npm install -g grunt-cli
