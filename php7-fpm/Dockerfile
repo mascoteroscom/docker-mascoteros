@@ -1,5 +1,5 @@
 # See https://github.com/docker-library/php/blob/master/7.1/fpm/Dockerfile
-FROM php:7.1-fpm
+FROM php:7.4-fpm
 ARG TIMEZONE
 
 MAINTAINER Maxence POUTORD <maxence.poutord@gmail.com>
@@ -16,8 +16,8 @@ RUN apt-get update && apt-get install -y \
     vim \
     && docker-php-ext-configure intl \
     && docker-php-ext-install intl \
-    && docker-php-ext-install mbstring \
-    && docker-php-ext-install zip \
+    #&& docker-php-ext-install mbstring \
+    #&& docker-php-ext-install zip \
     && docker-php-ext-install gd \
     && docker-php-ext-install soap \
     && docker-php-ext-install bcmath \
